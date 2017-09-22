@@ -7,6 +7,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.elasticsearch.action.index.IndexRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,17 +25,19 @@ public class UDKafkaConsumer {
     @Autowired
     private CommonService service;
 
-    @KafkaListener(topics = "${kafka.gps.topic}")
-    public void listenGPS(ConsumerRecord<String, String> msg) {
-        putMap.putIfAbsent(msg.topic(), new ArrayList<>());
-        indexRequestMap.putIfAbsent(msg.topic(), new ArrayList<>());
-        service.prePareGPSData(msg, putMap.get(msg.topic()), indexRequestMap.get(msg.topic()));
+    @KafkaListener(topics = "${kafka.gps.topic}", containerFactory = "kafkaListenerContainerFactory")
+    public void listenGPS(ConsumerRecord<String, String> msg, Acknowledgment ack) {
+        ArrayList<Put> puts = putMap.putIfAbsent(msg.topic(), new ArrayList<>());
+        ArrayList<IndexRequest> indexRequests = indexRequestMap.putIfAbsent(msg.topic(), new ArrayList<>());
+        service.prePareGPSData(msg, puts, indexRequests);
+        ack.acknowledge();
     }
 
-    @KafkaListener(topics = "${kafka.shw.topic}")
-    public void listenSHW(ConsumerRecord<String, String> msg) {
-        putMap.putIfAbsent(msg.topic(), new ArrayList<>());
-        indexRequestMap.putIfAbsent(msg.topic(), new ArrayList<>());
-        service.prePareSHWData(msg, putMap.get(msg.topic()), indexRequestMap.get(msg.topic()));
+    @KafkaListener(topics = "${kafka.shw.topic}", containerFactory = "kafkaListenerContainerFactory")
+    public void listenSHW(ConsumerRecord<String, String> msg, Acknowledgment ack) {
+        ArrayList<Put> puts = putMap.putIfAbsent(msg.topic(), new ArrayList<>());
+        ArrayList<IndexRequest> indexRequests = indexRequestMap.putIfAbsent(msg.topic(), new ArrayList<>());
+        service.prePareSHWData(msg, puts, indexRequests);
+        ack.acknowledge();
     }
 }

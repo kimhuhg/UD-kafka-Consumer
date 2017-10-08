@@ -26,7 +26,7 @@ public class UDKafkaConsumer {
         service.prePareSHWData(msg);
     }
 
-    @KafkaListener(topics = "${kafka_jtt_gps_miss_test}", containerFactory = "kafkaListenerContainerFactory")
+    @KafkaListener(topics = "${kafka.gps_miss.topi}", containerFactory = "kafkaListenerContainerFactory")
     public void listenGPSMISS(ConsumerRecord<String, String> msg) {
         service.prePareGPSMISSData(msg);
     }

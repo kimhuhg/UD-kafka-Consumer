@@ -1,8 +1,9 @@
 package com.union.kafka.service;
 
 import com.union.bean.ExListCarInfo;
+import com.union.bean.GPSMissInfo;
 import com.union.bean.GPSRecordInfo;
-import com.union.common.constant.Constants;
+import com.union.constant.Constants;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.index.IndexRequest;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,7 @@ public class ElasticSearchService {
     }
 
     public IndexRequest getSHWIndexReques(ExListCarInfo exListCarInfo, String rowkey) {
-        IndexRequest indexRequest = new IndexRequest(Constants.TABLE_SHW_NAME, Constants.TABLE_SHW_NAME, rowkey);
+        IndexRequest indexRequest = new IndexRequest(Constants.ES_SHW_INDEX, Constants.ES_GPS_TYPE, rowkey);
         Map<String, Object> data = new HashMap<>();
         data.put("vehicleColor", exListCarInfo.getVehicleColor());
         data.put("vehicleType", exListCarInfo.getVehicleType());
@@ -40,6 +41,16 @@ public class ElasticSearchService {
         data.put("date", exListCarInfo.getExTime().substring(0, 10));
         data.put("isFatigueDrive", exListCarInfo.getIsFatigueDrive());
         data.put("pd", exListCarInfo.getPlate() + "_" + exListCarInfo.getExTime().substring(0, 10).replaceAll("-", ""));
+        indexRequest.source(data);
+        return indexRequest;
+    }
+    public IndexRequest getGPSMISSIndexReques(GPSMissInfo gpsMissInfo, String rowkey) {
+        IndexRequest indexRequest = new IndexRequest(Constants.ES_GPS_MISS_INDEX, Constants.ES_GPS_MISS_TYPY, rowkey);
+        Map<String, Object> data = new HashMap<>();
+        data.put("rowKey", rowkey);
+        data.put("plate", gpsMissInfo.getPlate());
+        data.put("preTime", gpsMissInfo.getPreTime());
+        data.put("nextTime", gpsMissInfo.getNextTime());
         indexRequest.source(data);
         return indexRequest;
     }

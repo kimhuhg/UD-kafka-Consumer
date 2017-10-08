@@ -1,7 +1,7 @@
 package com.union.common.base;
 
 
-import com.union.common.constant.Constants;
+import com.union.constant.Constants;
 import com.union.common.es.EsConnectionPool;
 import com.union.common.hbase.HbaseConnectionPool;
 import org.apache.hadoop.conf.Configuration;

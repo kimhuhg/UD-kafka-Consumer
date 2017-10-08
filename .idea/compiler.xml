@@ -22,11 +22,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="UD-kafka-Consumer" />
+        <module name="com.union" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="UD-kafka-Consumer" target="1.8" />
+      <module name="com.union" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

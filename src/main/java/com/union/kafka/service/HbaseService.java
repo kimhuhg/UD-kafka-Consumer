@@ -1,19 +1,11 @@
 package com.union.kafka.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.union.bean.ExListCarInfo;
+import com.union.bean.GPSMissInfo;
 import com.union.bean.GPSRecordInfo;
-import com.union.common.base.InternalPools;
-import com.union.common.constant.Constants;
-import org.apache.hadoop.hbase.TableName;
+import com.union.constant.Constants;
 import org.apache.hadoop.hbase.client.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
 
 /**
  * Created by kejw on 2017/9/17.
@@ -60,6 +52,22 @@ public class HbaseService {
         return put;
     }
 
-
+    public Put getGPSMISSPut(GPSMissInfo gpsMissInfo, String rowkey) {
+        Put put = new Put(rowkey.getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "plate".getBytes(), gpsMissInfo.getPlate().getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "vehicleColor".getBytes(), gpsMissInfo.getVehicleColor().getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "vehicleType".getBytes(), gpsMissInfo.getVehicleType().getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "preTime".getBytes(), gpsMissInfo.getPreTime().getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "nextTime".getBytes(), gpsMissInfo.getNextTime().getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "preLon".getBytes(), gpsMissInfo.getPreLon().getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "preLat".getBytes(), gpsMissInfo.getPreLat().getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "nextLon".getBytes(), gpsMissInfo.getNextLon().getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "nextLat".getBytes(), gpsMissInfo.getNextLat().getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "preLoc".getBytes(), gpsMissInfo.getPreLoc().getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "nextLoc".getBytes(), gpsMissInfo.getNextLoc().getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "distance".getBytes(), gpsMissInfo.getDistance().getBytes());
+        put.addColumn(Constants.HB_GPS_MISS_FN.getBytes(), "duration".getBytes(), gpsMissInfo.getDuration().getBytes());
+        return put;
+    }
 
 }

@@ -35,6 +35,12 @@ public class KafkaConfig {
     private String groupId;
     @Value("${kafka.concurrency}")
     private int concurrency;
+    @Value("${max.partition.fetch.bytes}")
+    private int maxpartitionfetchbytes;
+    @Value("${heartbeat.interval.ms}")
+    private int heartbeatintervalms;
+    @Value("${request.timeout.ms}")
+    private int requesttimeoutms;
 
 
     @Bean
@@ -43,6 +49,13 @@ public class KafkaConfig {
         factory.setConsumerFactory(consumerFactory());
         factory.setConcurrency(concurrency);
         factory.getContainerProperties().setPollTimeout(sessionTimeoutMs);
+        //factory.getContainerProperties().setAckMode(AbstractMessageListenerContainer.AckMode.TIME);
+        //factory.getContainerProperties().setAckTime(5000);
+        //factory.setBatchListener(true);
+        //factory.getContainerProperties().setAckCount(500);
+        //factory.getContainerProperties().setIdleEventInterval(5000L);
+        //factory.getContainerProperties().setListenerTaskExecutor();
+        //factory.getContainerProperties().setConsumerTaskExecutor();
         return factory;
     }
 
@@ -60,6 +73,9 @@ public class KafkaConfig {
         props.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, autoCommitIntervalMs);
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeoutMs);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset);
+        props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, maxpartitionfetchbytes);
+        props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, heartbeatintervalms);
+        props.put(ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG, requesttimeoutms);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return props;

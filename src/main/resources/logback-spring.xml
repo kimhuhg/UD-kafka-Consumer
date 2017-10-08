@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- spring boot默认会加载classpath:logback-spring.xml -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- spring boot默认会加载classpath:logback-spring.xml -->
 <configuration>
 
 	<!-- 文件输出格式 -->
 	<property name="PATTERN" value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level [%thread] %c [%L] -| %msg%n" />
 	<!-- 文件路径 -->
-	<property name="FILE_PATH" value="/logs" />
+	<property name="FILE_PATH" value="/home/resources/logs" />
 
 	<!-- 开发环境 -->
 	<springProfile name="dev">
@@ -24,10 +25,10 @@
 				<onMismatch>DENY</onMismatch>
 			</filter>
 			<!-- 文件路径 -->
-			<file>${FILE_PATH}/error.log</file>
+			<file>${FILE_PATH}/error/error.log</file>
 			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-				<fileNamePattern>${FILE_PATH}/ebus_od_error.log.%d{yyyy-MM-dd}.log</fileNamePattern>
-				<MaxHistory>100</MaxHistory>
+				<fileNamePattern>${FILE_PATH}/error/ud_consumer_error.log.%d{yyyy-MM-dd}.log</fileNamePattern>
+				<MaxHistory>30</MaxHistory>
 			</rollingPolicy>
 			<layout class="ch.qos.logback.classic.PatternLayout">
 				<pattern>${PATTERN}</pattern>
@@ -49,10 +50,10 @@
 				<onMismatch>DENY</onMismatch>
 			</filter>
 			<!-- 文件路径 -->
-			<file>${FILE_PATH}/warn.log</file>
+			<file>${FILE_PATH}/warn/warn.log</file>
 			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-				<fileNamePattern>${FILE_PATH}/ebus_od_warn.log.%d{yyyy-MM-dd}.log</fileNamePattern>
-				<MaxHistory>100</MaxHistory>
+				<fileNamePattern>${FILE_PATH}/warn/ud_consumer_warn.log.%d{yyyy-MM-dd}.log</fileNamePattern>
+				<MaxHistory>30</MaxHistory>
 			</rollingPolicy>
 			<layout class="ch.qos.logback.classic.PatternLayout">
 				<pattern>${PATTERN}</pattern>
@@ -73,10 +74,10 @@
 				<onMismatch>DENY</onMismatch>
 			</filter>
 			<!-- 文件路径 -->
-			<file>${FILE_PATH}/info.log</file>
+			<file>${FILE_PATH}/info/info.log</file>
 			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-				<fileNamePattern>${FILE_PATH}/ebus_od_info.log.%d{yyyy-MM-dd}.log</fileNamePattern>
-				<MaxHistory>100</MaxHistory>
+				<fileNamePattern>${FILE_PATH}/info/ud_consumer_info.log.%d{yyyy-MM-dd}.log</fileNamePattern>
+				<MaxHistory>30</MaxHistory>
 			</rollingPolicy>
 			<layout class="ch.qos.logback.classic.PatternLayout">
 				<pattern>${PATTERN}</pattern>

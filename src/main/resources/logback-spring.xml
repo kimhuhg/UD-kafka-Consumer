@@ -1,101 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- spring boot默认会加载classpath:logback-spring.xml -->
-<configuration>
+<configuration scan="true" scanPeriod="30 minutes">
 
-	<!-- 文件输出格式 -->
-	<property name="PATTERN" value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level [%thread] %c [%L] -| %msg%n" />
-	<!-- 文件路径 -->
-	<property name="FILE_PATH" value="/home/resources/logs" />
+    <property name="logback.home" value="/home/jar/log/log-jtt-kafkaconsumer"/>
+    <property name="logback.appName" value="ud-kafka-consumer"/>
+    <property name="logback.debug" value="debug"/>
+    <property name="logback.info" value="info"/>
+    <property name="logback.err" value="err"/>
+    <property name="logback.warn" value="warn"/>
+    <property name="logback.importance" value="importance"/>
 
-	<!-- 开发环境 -->
-	<springProfile name="dev">
-		<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-			<encoder>
-				<pattern>${PATTERN}</pattern>
-			</encoder>
-		</appender>
-		
-		<!-- 按照每天生成日志文件 -->
-		<appender name="error"
-			class="ch.qos.logback.core.rolling.RollingFileAppender">
-			<!-- 过滤器，只记录ERROR级别的日志 -->
-			<filter class="ch.qos.logback.classic.filter.LevelFilter">
-				<level>ERROR</level>
-				<onMatch>ACCEPT</onMatch>
-				<onMismatch>DENY</onMismatch>
-			</filter>
-			<!-- 文件路径 -->
-			<file>${FILE_PATH}/error/error.log</file>
-			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-				<fileNamePattern>${FILE_PATH}/error/ud_consumer_error.log.%d{yyyy-MM-dd}.log</fileNamePattern>
-				<MaxHistory>30</MaxHistory>
-			</rollingPolicy>
-			<layout class="ch.qos.logback.classic.PatternLayout">
-				<pattern>${PATTERN}</pattern>
-			</layout>
-			<!--日志文件最大的大小 -->
-			<triggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-				<MaxFileSize>10MB</MaxFileSize>
-			</triggeringPolicy>
-		</appender>
-		
-		<!-- 按照每天生成日志文件 -->
-		<appender name="warn"
-			class="ch.qos.logback.core.rolling.RollingFileAppender">
-			<!-- 过滤器，只记录ERROR级别的日志 -->
-			<filter class="ch.qos.logback.classic.filter.LevelFilter">
-				<level>warn</level>
-				<onMatch>ACCEPT</onMatch>
-				<onMismatch>DENY</onMismatch>
-			</filter>
-			<!-- 文件路径 -->
-			<file>${FILE_PATH}/warn/warn.log</file>
-			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-				<fileNamePattern>${FILE_PATH}/warn/ud_consumer_warn.log.%d{yyyy-MM-dd}.log</fileNamePattern>
-				<MaxHistory>30</MaxHistory>
-			</rollingPolicy>
-			<layout class="ch.qos.logback.classic.PatternLayout">
-				<pattern>${PATTERN}</pattern>
-			</layout>
-			<!--日志文件最大的大小 -->
-			<triggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-				<MaxFileSize>10MB</MaxFileSize>
-			</triggeringPolicy>
-		</appender>
-		
-		<!-- 按照每天生成日志文件 -->
-		<appender name="info"
-			class="ch.qos.logback.core.rolling.RollingFileAppender">
-			<filter class="ch.qos.logback.classic.filter.LevelFilter">
-				<level>info</level>
-				<onMatch>ACCEPT</onMatch>
-				<onMismatch>DENY</onMismatch>
-			</filter>
-			<!-- 文件路径 -->
-			<file>${FILE_PATH}/info/info.log</file>
-			<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-				<fileNamePattern>${FILE_PATH}/info/ud_consumer_info.log.%d{yyyy-MM-dd}.log</fileNamePattern>
-				<MaxHistory>30</MaxHistory>
-			</rollingPolicy>
-			<layout class="ch.qos.logback.classic.PatternLayout">
-				<pattern>${PATTERN}</pattern>
-			</layout>
-			<!--日志文件最大的大小 -->
-			<triggeringPolicy
-				class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-				<MaxFileSize>10MB</MaxFileSize>
-			</triggeringPolicy>
-		</appender>
-		
-		<logger name="com.union" level="error"/>
+    <property name="logback.warnFileName" value="jtt_warn"/>
+    <property name="logback.infoFileName" value="jtt_info"/>
+    <property name="logback.errFileName" value="jtt_err"/>
+    <property name="logback.importanceFileName" value="jtt_importance"/>
+    <property name="logback.debugFileName" value="jtt_debug"/>
 
-		<root level="error">
-			<appender-ref ref="CONSOLE" />
-			<appender-ref ref="error" />
-			<appender-ref ref="warn" />
-			<appender-ref ref="info" />
-		</root>
-	</springProfile>
+    <property name="PATTERN"
+              value="%-12(%d{yyyy-MM-dd HH:mm:ss.SSS}) |-%-5level [${logback.appName}:%thread] %c [%L] -| %msg%n"/>
+    <!--
+        设置上下文名称后,可以方便地区分来自不同应用程序的记录
+    -->
+    <contextName>${logback.appName}</contextName>
+
+    <!-- name 属性指定 appender 的名称,class 属性指定 appender 类的全限定名 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="union_warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.home}/${logback.warn}/${logback.warnFileName}.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logback.home}/${logback.warn}/${logback.warnFileName}-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="union_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.home}/${logback.info}/${logback.infoFileName}.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logback.home}/${logback.info}/${logback.infoFileName}-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="union_debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.home}/${logback.debug}/${logback.debugFileName}.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logback.home}/${logback.debug}/${logback.debugFileName}-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="union_err" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.home}/${logback.err}/${logback.errFileName}.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logback.home}/${logback.err}/${logback.errFileName}-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="org_err" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.home}/${logback.info}/${logback.infoFileName}.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logback.home}/${logback.info}/${logback.infoFileName}-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="org_warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logback.home}/${logback.info}/${logback.infoFileName}.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logback.home}/${logback.info}/${logback.infoFileName}-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <!-- <logger name="org" level="info" additivity="false">
+         <appender-ref ref="org_info"/>
+     </logger>
+     <logger name="org" level="info" additivity="false">
+         <appender-ref ref="org_info"/>
+     </logger>-->
+
+    <logger name="com.udgrp" level="info" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="union_info"/>
+        <appender-ref ref="union_warn"/>
+        <appender-ref ref="union_debug"/>
+        <appender-ref ref="union_err"/>
+    </logger>
+
 </configuration>

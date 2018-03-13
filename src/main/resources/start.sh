@@ -23,6 +23,6 @@ nohup java -jar \
 -XX:+UseFastAccessorMethods \
 -XX:+UseCMSInitiatingOccupancyOnly \
 -XX:+DisableExplicitGC \
-/home/resources/com.union-1.0-SNAPSHOT.jar > /home/resources/nohup.out &
+/home/resources/com.udgrp-1.0-SNAPSHOT.jar > /home/resources/nohup.out &
 
 echo "The ConsumerStartApplication is started!"

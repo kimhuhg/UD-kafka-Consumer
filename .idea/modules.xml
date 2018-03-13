@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/com.union.iml" filepath="$PROJECT_DIR$/com.union.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ud-kafka-consumer.iml" filepath="$PROJECT_DIR$/ud-kafka-consumer.iml" />
     </modules>
   </component>
 </project>

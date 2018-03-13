@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.udgrp.entity.GPSMiss">
+    <resultMap id="gpsMissMap" type="com.udgrp.entity.GPSMiss">
+        <id column="id" property="id"/>
+        <result column="plate" property="plate"/>
+        <result column="vehicleColor" property="vehicleColor"/>
+        <result column="vehicleType" property="vehicleType"/>
+        <result column="preTime" property="preTime"/>
+        <result column="nextTime" property="nextTime"/>
+        <result column="preLon" property="preLon"/>
+        <result column="preLat" property="preLat"/>
+        <result column="nextLon" property="nextLon"/>
+        <result column="nextLat" property="nextLat"/>
+        <result column="preLoc" property="preLoc"/>
+        <result column="nextLoc" property="nextLoc"/>
+        <result column="distance" property="distance"/>
+        <result column="duration" property="duration"/>
+        <result column="creator" property="creator"/>
+        <result column="created_date" property="created_date"/>
+        <result column="modifier" property="modifier"/>
+        <result column="last_updated_date" property="last_updated_date"/>
+        <result column="is_enable" property="is_enable"/>
+    </resultMap>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT IGNORE INTO t_gps_miss(
+        id,
+        plate,
+        vehicleColor,
+        vehicleType,
+        preTime,
+        nextTime,
+        preLon,
+        preLat,
+        nextLon,
+        nextLat,
+        preLoc,
+        nextLoc,
+        distance,
+        duration,
+        creator,
+        created_date,
+        modifier,
+        last_updated_date,
+        is_enable
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id,jdbcType=VARCHAR},
+            #{item.plate,jdbcType=VARCHAR},
+            #{item.vehicleColor,jdbcType=VARCHAR},
+            #{item.vehicleType,jdbcType=VARCHAR},
+            #{item.preTime,jdbcType=VARCHAR},
+            #{item.nextTime,jdbcType=VARCHAR},
+            #{item.preLon,jdbcType=VARCHAR},
+            #{item.preLat,jdbcType=VARCHAR},
+            #{item.nextLon,jdbcType=VARCHAR},
+            #{item.nextLat,jdbcType=VARCHAR},
+            #{item.preLoc,jdbcType=VARCHAR},
+            #{item.nextLoc,jdbcType=VARCHAR},
+            #{item.distance,jdbcType=VARCHAR},
+            #{item.duration,jdbcType=VARCHAR},
+            #{item.creator,jdbcType=VARCHAR},
+            #{item.created_date,jdbcType=VARCHAR},
+            #{item.modifier,jdbcType=VARCHAR},
+            #{item.last_updated_date,jdbcType=VARCHAR},
+            #{item.is_enable,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insert" parameterType="com.udgrp.entity.GPSMiss">
+        INSERT INTO t_gps_miss(
+        id,
+        plate,
+        vehicleColor,
+        vehicleType,
+        preTime,
+        nextTime,
+        preLon,
+        preLat,
+        nextLon,
+        nextLat,
+        preLoc,
+        nextLoc,
+        distance,
+        duration,
+        creator,
+        created_date,
+        modifier,
+        last_updated_date,
+        is_enable
+        )
+        VALUES
+        (
+        #{id,jdbcType=VARCHAR},
+        #{plate,jdbcType=VARCHAR},
+        #{vehicleColor,jdbcType=VARCHAR},
+        #{vehicleType,jdbcType=VARCHAR},
+        #{preTime,jdbcType=VARCHAR},
+        #{nextTime,jdbcType=VARCHAR},
+        #{preLon,jdbcType=VARCHAR},
+        #{preLat,jdbcType=VARCHAR},
+        #{nextLon,jdbcType=VARCHAR},
+        #{nextLat,jdbcType=VARCHAR},
+        #{preLoc,jdbcType=VARCHAR},
+        #{nextLoc,jdbcType=VARCHAR},
+        #{distance,jdbcType=VARCHAR},
+        #{duration,jdbcType=VARCHAR},
+        #{creator,jdbcType=VARCHAR},
+        #{created_date,jdbcType=VARCHAR},
+        #{modifier,jdbcType=VARCHAR},
+        #{last_updated_date,jdbcType=VARCHAR},
+        #{is_enable,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="select" resultMap="gpsMissMap">
+        SELECT * FROM t_gps_miss WHERE ID = #{id}
+    </select>
+</mapper>

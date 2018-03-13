@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.udgrp.entity.ExListData">
+    <resultMap id="exListCarInfoMap" type="com.udgrp.entity.ExListData">
+        <id column="id" property="id"/>
+        <result column="plate" property="plate"/>
+        <result column="vehicleColor" property="vehicleColor"/>
+        <result column="vehicleType" property="vehicleType"/>
+        <result column="driveScope" property="driveScope"/>
+        <result column="enTime" property="enTime"/>
+        <result column="exTime" property="exTime"/>
+        <result column="enloadNetName" property="enloadNetName"/>
+        <result column="enLoadName" property="enLoadName"/>
+        <result column="enStationName" property="enStationName"/>
+        <result column="exloadNetName" property="exloadNetName"/>
+        <result column="exLoadName" property="exLoadName"/>
+        <result column="exStationName" property="exStationName"/>
+        <result column="enlon" property="enlon"/>
+        <result column="enlat" property="enlat"/>
+        <result column="exlon" property="exlon"/>
+        <result column="exlat" property="exlat"/>
+        <result column="enCity" property="enCity"/>
+        <result column="exCity" property="exCity"/>
+        <result column="midstations" property="midstations"/>
+        <result column="minutes" property="minutes"/>
+        <result column="km" property="km"/>
+        <result column="preSpeed" property="preSpeed"/>
+        <result column="isFatigueDrive" property="isFatigueDrive"/>
+        <result column="isSameCity" property="isSameCity"/>
+        <result column="creator" property="creator"/>
+        <result column="created_date" property="created_date"/>
+        <result column="modifier" property="modifier"/>
+        <result column="last_updated_date" property="last_updated_date"/>
+        <result column="is_enable" property="is_enable"/>
+    </resultMap>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT IGNORE INTO t_shwdetailsmain(
+        id,
+        plate,
+        vehicleColor,
+        vehicleType,
+        driveScope,
+        enTime,
+        exTime,
+        enloadNetName,
+        enLoadName,
+        enStationName,
+        exloadNetName,
+        exLoadName,
+        exStationName,
+        enlon,
+        enlat,
+        exlon,
+        exlat,
+        enCity,
+        exCity,
+        midstations,
+        minutes,
+        km,
+        preSpeed,
+        isFatigueDrive,
+        isSameCity,
+        creator,
+        created_date,
+        modifier,
+        last_updated_date,
+        is_enable
+        )
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id,jdbcType=VARCHAR},
+            #{item.plate,jdbcType=VARCHAR},
+            #{item.vehicleColor,jdbcType=VARCHAR},
+            #{item.vehicleType,jdbcType=VARCHAR},
+            #{item.driveScope,jdbcType=VARCHAR},
+            #{item.enTime,jdbcType=VARCHAR},
+            #{item.exTime,jdbcType=VARCHAR},
+            #{item.enloadNetName,jdbcType=VARCHAR},
+            #{item.enLoadName,jdbcType=VARCHAR},
+            #{item.enStationName,jdbcType=VARCHAR},
+            #{item.exloadNetName,jdbcType=VARCHAR},
+            #{item.exLoadName,jdbcType=VARCHAR},
+            #{item.exStationName,jdbcType=VARCHAR},
+            #{item.enlon,jdbcType=VARCHAR},
+            #{item.enlat,jdbcType=VARCHAR},
+            #{item.exlon,jdbcType=VARCHAR},
+            #{item.exlat,jdbcType=VARCHAR},
+            #{item.enCity,jdbcType=VARCHAR},
+            #{item.exCity,jdbcType=VARCHAR},
+            #{item.midstations,jdbcType=VARCHAR},
+            #{item.minutes,jdbcType=VARCHAR},
+            #{item.km,jdbcType=VARCHAR},
+            #{item.preSpeed,jdbcType=VARCHAR},
+            #{item.isFatigueDrive,jdbcType=VARCHAR},
+            #{item.isSameCity,jdbcType=VARCHAR},
+            #{item.creator,jdbcType=VARCHAR},
+            #{item.created_date,jdbcType=VARCHAR},
+            #{item.modifier,jdbcType=VARCHAR},
+            #{item.last_updated_date,jdbcType=VARCHAR},
+            #{item.is_enable,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insert" parameterType="com.udgrp.entity.ExListData">
+        INSERT INTO t_shwdetailsmain(
+        id,
+        plate,
+        vehicleColor,
+        vehicleType,
+        driveScope,
+        enTime,
+        exTime,
+        enloadNetName,
+        enLoadName,
+        enStationName,
+        exloadNetName,
+        exLoadName,
+        exStationName,
+        enlon,
+        enlat,
+        exlon,
+        exlat,
+        enCity,
+        exCity,
+        midstations,
+        minutes,
+        km,
+        preSpeed,
+        isFatigueDrive,
+        isSameCity,
+        creator,
+        created_date,
+        modifier,
+        last_updated_date,
+        is_enable
+        )
+        VALUES
+        (
+        #{id,jdbcType=VARCHAR},
+        #{plate,jdbcType=VARCHAR},
+        #{vehicleColor,jdbcType=VARCHAR},
+        #{vehicleType,jdbcType=VARCHAR},
+        #{driveScope,jdbcType=VARCHAR},
+        #{enTime,jdbcType=VARCHAR},
+        #{exTime,jdbcType=VARCHAR},
+        #{enloadNetName,jdbcType=VARCHAR},
+        #{enLoadName,jdbcType=VARCHAR},
+        #{enStationName,jdbcType=VARCHAR},
+        #{exloadNetName,jdbcType=VARCHAR},
+        #{exLoadName,jdbcType=VARCHAR},
+        #{exStationName,jdbcType=VARCHAR},
+        #{enlon,jdbcType=VARCHAR},
+        #{enlat,jdbcType=VARCHAR},
+        #{exlon,jdbcType=VARCHAR},
+        #{exlat,jdbcType=VARCHAR},
+        #{enCity,jdbcType=VARCHAR},
+        #{exCity,jdbcType=VARCHAR},
+        #{midstations,jdbcType=VARCHAR},
+        #{minutes,jdbcType=VARCHAR},
+        #{km,jdbcType=VARCHAR},
+        #{preSpeed,jdbcType=VARCHAR},
+        #{isFatigueDrive,jdbcType=VARCHAR},
+        #{isSameCity,jdbcType=VARCHAR},
+        #{creator,jdbcType=VARCHAR},
+        #{created_date,jdbcType=VARCHAR},
+        #{modifier,jdbcType=VARCHAR},
+        #{last_updated_date,jdbcType=VARCHAR},
+        #{is_enable,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <select id="select" resultMap="exListCarInfoMap">
+        SELECT * FROM t_shwdetailsmain WHERE ID = #{id}
+    </select>
+</mapper>
